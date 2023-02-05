@@ -12,6 +12,13 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.users-table {
+  padding: 10px;
+}
+
+#delete-button {
+  margin-left: 20px;
+}
 
 .App-header {
   background-color: #282c34;
@@ -22,6 +29,10 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+td {
+  padding: 15px;
 }
 
 .App-link {
