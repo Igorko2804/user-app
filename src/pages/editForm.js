@@ -37,8 +37,8 @@ export default function EditForm({ id, name, email, gender, status }) {
     setOpen(false);
   };
 
-  const [gender_value, setGenderValue] = useState("");
-  const [status_value, setStatusValue] = useState("");
+  const [gender_value, setGenderValue] = useState(gender);
+  const [status_value, setStatusValue] = useState(status);
   const selectGender = (e) => setGenderValue(e.target.value);
   const selectStatus = (e) => setStatusValue(e.target.value);
 

@@ -35,7 +35,7 @@ const Index = () => {
       });
     }
 
-    url += "&per_page=" + query.pageSize;
+    url += "per_page=" + query.pageSize;
     url += "&page=" + (query.page + 1);
     axios
       .get(url, { headers: headers })
@@ -110,7 +110,7 @@ const Index = () => {
           })
         }
         options={{
-          sorting: true,
+          sorting: false,
           filtering: true,
           search: false,
           grouping: true,
