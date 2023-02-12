@@ -7,7 +7,14 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import { Alert, TextField } from "@mui/material";
+import {
+  Alert,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useState } from "react";
 import humanizeString from "humanize-string";
 import axios from "axios";
@@ -29,6 +36,11 @@ export default function EditForm({ id, name, email, gender, status }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [gender_value, setGenderValue] = useState("");
+  const [status_value, setStatusValue] = useState("");
+  const selectGender = (e) => setGenderValue(e.target.value);
+  const selectStatus = (e) => setStatusValue(e.target.value);
 
   return (
     <div>
@@ -60,20 +72,21 @@ export default function EditForm({ id, name, email, gender, status }) {
               onClick={() => {
                 const headers = {
                   "Content-Type": "application/json",
-                  Authorization:
-                    "Bearer 99507d5bb8c415f9b0c928fd1b6f5d9a1a1353a33ff5341d392a23bf6e9e4dbe",
+                  Authorization: process.env.REACT_APP_SECRET_KEY,
                 };
                 let data = JSON.stringify({
                   name: document.getElementById("name").value,
                   email: document.getElementById("email").value,
-                  gender: document.getElementById("gender").value,
-                  status: document.getElementById("status").value,
+                  gender: gender_value,
+                  status: status_value,
                 });
 
                 axios
-                  .put(`https://gorest.co.in/public/v1/users/${id}`, data, {
-                    headers: headers,
-                  })
+                  .put(
+                    `${process.env.REACT_APP_API_DOMAIN_NAME}public/v1/users/${id}`,
+                    data,
+                    { headers: headers }
+                  )
                   .then((response) => {
                     setAlert(true);
                     setSeverity("success");
@@ -117,18 +130,20 @@ export default function EditForm({ id, name, email, gender, status }) {
           variant="outlined"
           defaultValue={email}
         />
-        <TextField
-          id="status"
-          label="Status"
-          variant="outlined"
-          defaultValue={status}
-        />
-        <TextField
-          id="gender"
-          label="Gender"
-          variant="outlined"
-          defaultValue={gender}
-        />
+        <FormControl fullWidth>
+          <InputLabel>Status</InputLabel>
+          <Select onChange={selectStatus} defaultValue={status}>
+            <MenuItem value={"active"}>Active</MenuItem>
+            <MenuItem value={"inactive"}>Inactive</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl fullWidth>
+          <InputLabel id="gender">Gender</InputLabel>
+          <Select onChange={selectGender} defaultValue={gender}>
+            <MenuItem value={"male"}>Male</MenuItem>
+            <MenuItem value={"female"}>Female</MenuItem>
+          </Select>
+        </FormControl>
         {alert ? <Alert severity={severity}>{alertContent}</Alert> : <></>}
       </Dialog>
     </div>
